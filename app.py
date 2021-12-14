@@ -17,7 +17,7 @@ class Music(BaseModel):
 
 app = FastAPI()
 
-with open("./FastAPI Files (ML API)/model.pkl", "rb") as f:
+with open("./model.pkl", "rb") as f:
     model = pickle.load(f)
 
 
