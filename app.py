@@ -20,7 +20,7 @@ app = FastAPI()
 """with open("./model.pkl", "rb") as f:
     model = pickle.load(f)"""
 
-model = torch.load('./fashion_nerda_mbert_model_V2.pt')
+model = torch.load('./fashion_nerda_mbert_model_V1.pt')
 
 @app.get('/')
 def index():
