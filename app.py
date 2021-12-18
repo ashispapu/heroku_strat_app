@@ -2,7 +2,7 @@ import uvicorn
 import pickle
 from fastapi import FastAPI
 from pydantic import BaseModel
-
+import torch
 
 class Music(BaseModel):
     acousticness: float
@@ -17,9 +17,10 @@ class Music(BaseModel):
 
 app = FastAPI()
 
-with open("./model.pkl", "rb") as f:
-    model = pickle.load(f)
+"""with open("./model.pkl", "rb") as f:
+    model = pickle.load(f)"""
 
+model = torch.load('./fashion_nerda_mbert_model_V2.pt')
 
 @app.get('/')
 def index():
@@ -28,7 +29,7 @@ def index():
 
 @app.post('/prediction')
 def get_music_category(data: Music):
-    received = data.dict()
+    """received = data.dict()
     acousticness = received['acousticness']
     danceability = received['danceability']
     energy = received['energy']
@@ -38,8 +39,11 @@ def get_music_category(data: Music):
     tempo = received['tempo']
     valence = received['valence']
     pred_name = model.predict([[acousticness, danceability, energy,
-                                instrumentalness, liveness, speechiness, tempo, valence]]).tolist()[0]
-    return {'prediction': pred_name}
+                                instrumentalness, liveness, speechiness, tempo, valence]]).tolist()[0] """
+
+    test_text = "what is the price of tcs ?" 
+    pred = model.predict_text(test_text.lower())
+    return {'prediction': (pred[0][0], pred[1][0])}
 
 
 @app.get('/predict')
